@@ -2,7 +2,7 @@ package com.gym.dto;
 
 import java.io.Serializable;
 
-public class SignupDto  implements Serializable {
+public class SignupDto extends LoginDto implements Serializable {
     private String name;
     private String surname;
     private String email;

@@ -4,8 +4,8 @@ import com.gym.Connection;
 import com.gym.command.ClientAction;
 import com.gym.dto.SignupDto;
 import com.gym.dto.LoginDto;
-import com.gym.repository.IUser;
-import com.gym.repository.impl.UserImpl;
+import com.gym.repository.UserService;
+import com.gym.repository.impl.UserServiceImpl;
 
 import java.net.Socket;
 
@@ -18,21 +18,21 @@ public class UserController implements Runnable {
 
     @Override
     public void run() {
-        IUser iUser = new UserImpl();
+        UserService userService = new UserServiceImpl();
         while (true) {
             ClientAction clientAction = (ClientAction) connectionTCP.readObject();
             switch (clientAction) {
                 case SIGNUP -> {
                     SignupDto signupDto = (SignupDto) connectionTCP.readObject();
-                    if (iUser.doesUserExist(signupDto.getEmail())) {
-                        connectionTCP.writeObject(false);
+                    if (userService.doesUserExist(signupDto.getEmail())) {
+                        connectionTCP.writeObject(null);
                     } else {
-                        connectionTCP.writeObject(iUser.signup(signupDto));
+                        connectionTCP.writeObject(userService.signup(signupDto));
                     }
                 }
                 case LOGIN -> {
                     LoginDto loginDto = (LoginDto) connectionTCP.readObject();
-                    connectionTCP.writeObject(iUser.login(loginDto));
+                    connectionTCP.writeObject(userService.login(loginDto));
                 }
             }
         }
