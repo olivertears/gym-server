@@ -15,21 +15,22 @@ CREATE TABLE IF NOT EXISTS user
 CREATE TABLE IF NOT EXISTS subscription
 (
     id int AUTO_INCREMENT PRIMARY KEY NOT NULL,
-    clientId int NOT NULL,
+    userId int NOT NULL,
     type varchar(10) DEFAULT 'STANDARD' NOT NULL,
     price double NOT NULL,
     start date NOT NULL,
     end date NOT NULL,
     CONSTRAINT id_UNIQUE
         UNIQUE (id),
-    CONSTRAINT clientId
-        FOREIGN KEY (clientId) REFERENCES user (id)
+    CONSTRAINT userId
+        FOREIGN KEY (userId) REFERENCES user (id)
         ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS workout
 (
     id int AUTO_INCREMENT PRIMARY KEY NOT NULL,
+    clientId int NOT NULL,
     coachId int NOT NULL,
     done tinyint DEFAULT '0' NOT NULL,
     price double NOT NULL,
@@ -37,6 +38,9 @@ CREATE TABLE IF NOT EXISTS workout
     end datetime NOT NULL,
     CONSTRAINT id_UNIQUE
         UNIQUE (id),
+    CONSTRAINT clientId
+        FOREIGN KEY (clientId) REFERENCES user (id)
+        ON DELETE CASCADE,
     CONSTRAINT coachId
         FOREIGN KEY (coachId) REFERENCES user (id)
         ON DELETE CASCADE

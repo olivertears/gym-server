@@ -4,35 +4,51 @@ import com.gym.Connection;
 import com.gym.command.ClientAction;
 import com.gym.dto.SignupDto;
 import com.gym.dto.LoginDto;
+import com.gym.entity.User;
 import com.gym.repository.UserService;
 import com.gym.repository.impl.UserServiceImpl;
 
 import java.net.Socket;
 
 public class UserController implements Runnable {
-    private final Connection connectionTCP;
+    private final Connection connection;
 
     public UserController(Socket socket) {
-        connectionTCP = new Connection(socket);
+        connection = new Connection(socket);
     }
 
     @Override
     public void run() {
         UserService userService = new UserServiceImpl();
         while (true) {
-            ClientAction clientAction = (ClientAction) connectionTCP.readObject();
+            ClientAction clientAction = (ClientAction) connection.readObject();
             switch (clientAction) {
                 case SIGNUP -> {
-                    SignupDto signupDto = (SignupDto) connectionTCP.readObject();
+                    SignupDto signupDto = (SignupDto) connection.readObject();
                     if (userService.doesUserExist(signupDto.getEmail())) {
-                        connectionTCP.writeObject(null);
+                        connection.writeObject(null);
                     } else {
-                        connectionTCP.writeObject(userService.signup(signupDto));
+                        connection.writeObject(userService.signup(signupDto));
                     }
                 }
                 case LOGIN -> {
-                    LoginDto loginDto = (LoginDto) connectionTCP.readObject();
-                    connectionTCP.writeObject(userService.login(loginDto));
+                    LoginDto loginDto = (LoginDto) connection.readObject();
+                    connection.writeObject(userService.login(loginDto));
+                }
+                case GET_USER_BY_ID -> {
+                    int id = (int) connection.readObject();
+                    connection.writeObject(userService.getUserById(id));
+                }
+                case GET_USERS -> {
+                    connection.writeObject(userService.getUsers());
+                }
+                case UPDATE_USER -> {
+                    User user = (User) connection.readObject();
+                    connection.writeObject(userService.updateUser(user));
+                }
+                case DELETE_USER -> {
+                    int id = (int) connection.readObject();
+                    connection.writeObject(userService.deleteUser(id));
                 }
             }
         }

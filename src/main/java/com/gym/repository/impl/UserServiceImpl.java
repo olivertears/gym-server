@@ -60,7 +60,7 @@ public class UserServiceImpl implements UserService {
                     user.setName(resultSet.getString("name"));
                     user.setSurname(resultSet.getString("surname"));
                     user.setEmail(resultSet.getString("email"));
-//                    user.setRole(resultSet.getString("role"));
+                    user.setRole(resultSet.getString("role"));
                 }
             } else {
                 return null;
