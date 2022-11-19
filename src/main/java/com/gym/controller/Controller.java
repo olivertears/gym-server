@@ -24,6 +24,7 @@ public class Controller implements Runnable {
         WorkoutService workoutService = new WorkoutServiceImpl();
         CategoryService categoryService = new CategoryServiceImpl();
         OperationService operationService = new OperationServiceImpl();
+
         while (true) {
             Action action = (Action) connection.readObject();
             switch (action) {

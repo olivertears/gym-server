@@ -18,7 +18,7 @@ public class UserServiceImpl implements UserService {
         User user;
         String sql = "INSERT INTO user (name, surname, email, password) VALUES (?, ?, ?, ?)";
 
-        String name = signupDto.getPassword();
+        String name = signupDto.getName();
         String surname = signupDto.getSurname();
         String email = signupDto.getEmail();
         String password = signupDto.getPassword();
