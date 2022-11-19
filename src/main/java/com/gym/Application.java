@@ -1,6 +1,6 @@
 package com.gym;
 
-import com.gym.controller.UserController;
+import com.gym.controller.Controller;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -16,7 +16,7 @@ public class Application {
                 Socket clientSocket = serverSocket.accept();
                 System.out.println("New connection established\n" +
                         "IP:" + clientSocket.getInetAddress() + ":" + clientSocket.getPort());
-                new Thread(new UserController(clientSocket)).start();
+                new Thread(new Controller(clientSocket)).start();
             }
         } catch (IOException e) {
             throw new RuntimeException(e);

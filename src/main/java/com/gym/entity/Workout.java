@@ -1,15 +1,15 @@
 package com.gym.entity;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 
 public class Workout implements Serializable {
     private int id;
+    private int clientId;
     private int coachId;
     private boolean done;
     private double price;
-    private LocalDateTime start;
-    private LocalDateTime end;
+    private Timestamp start;
 
     public int getId() {
         return id;
@@ -43,19 +43,19 @@ public class Workout implements Serializable {
         this.price = price;
     }
 
-    public LocalDateTime getStart() {
+    public Timestamp getStart() {
         return start;
     }
 
-    public void setStart(LocalDateTime start) {
+    public void setStart(Timestamp start) {
         this.start = start;
     }
 
-    public LocalDateTime getEnd() {
-        return end;
+    public int getClientId() {
+        return clientId;
     }
 
-    public void setEnd(LocalDateTime end) {
-        this.end = end;
+    public void setClientId(int clientId) {
+        this.clientId = clientId;
     }
 }

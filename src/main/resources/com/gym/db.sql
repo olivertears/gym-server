@@ -35,7 +35,6 @@ CREATE TABLE IF NOT EXISTS workout
     done tinyint DEFAULT '0' NOT NULL,
     price double NOT NULL,
     start datetime NOT NULL,
-    end datetime NOT NULL,
     CONSTRAINT id_UNIQUE
         UNIQUE (id),
     CONSTRAINT clientId

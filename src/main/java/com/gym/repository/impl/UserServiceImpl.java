@@ -15,7 +15,7 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
     @Override
     public User signup(SignupDto signupDto) {
-        User user = new User();
+        User user;
         String sql = "INSERT INTO user (name, surname, email, password) VALUES (?, ?, ?, ?)";
 
         String name = signupDto.getPassword();
@@ -33,7 +33,6 @@ public class UserServiceImpl implements UserService {
 
             user = login(signupDto);
         } catch (SQLException e) {
-            e.printStackTrace();
             throw new RuntimeException(e);
         }
 
@@ -66,7 +65,6 @@ public class UserServiceImpl implements UserService {
                 return null;
             }
         } catch (SQLException e) {
-            e.printStackTrace();
             throw new RuntimeException(e);
         }
 
@@ -95,7 +93,7 @@ public class UserServiceImpl implements UserService {
 
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setString(1, String.valueOf(id));
+            statement.setInt(1, id);
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.isBeforeFirst()) {
@@ -119,7 +117,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> getUsers() {
         List<User> users = new ArrayList<>();
-        String sql = "SELECT * from user";
+        String sql = "SELECT * FROM user ORDER BY id";
 
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
@@ -145,7 +143,7 @@ public class UserServiceImpl implements UserService {
         String sql = "UPDATE user SET name = ?, surname = ?, role = ? WHERE id = ?";
 
         int id = user.getId();
-        String name = user.getPassword();
+        String name = user.getName();
         String surname = user.getSurname();
         String role = user.getRole();
 

@@ -1,15 +1,15 @@
 package com.gym.entity;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 public class Subscription implements Serializable {
     private int id;
-    private int clientId;
+    private int userId;
     private Type type;
     private double price;
-    private LocalDateTime start;
-    private LocalDateTime end;
+    private LocalDate start;
+    private LocalDate end;
 
     enum Type {
         STANDARD,
@@ -24,12 +24,12 @@ public class Subscription implements Serializable {
         this.id = id;
     }
 
-    public int getClientId() {
-        return clientId;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setClientId(int clientId) {
-        this.clientId = clientId;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public String getType() {
@@ -48,19 +48,19 @@ public class Subscription implements Serializable {
         this.price = price;
     }
 
-    public LocalDateTime getStart() {
+    public LocalDate getStart() {
         return start;
     }
 
-    public void setStart(LocalDateTime start) {
+    public void setStart(LocalDate start) {
         this.start = start;
     }
 
-    public LocalDateTime getEnd() {
+    public LocalDate getEnd() {
         return end;
     }
 
-    public void setEnd(LocalDateTime end) {
+    public void setEnd(LocalDate end) {
         this.end = end;
     }
 }
