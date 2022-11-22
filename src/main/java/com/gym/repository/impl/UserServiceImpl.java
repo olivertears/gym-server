@@ -117,7 +117,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> getUsers() {
         List<User> users = new ArrayList<>();
-        String sql = "SELECT * FROM user ORDER BY id";
+        String sql = "SELECT * FROM user WHERE role != 'ADMIN' ORDER BY id";
 
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
@@ -128,6 +128,7 @@ public class UserServiceImpl implements UserService {
                 user.setId(resultSet.getInt("id"));
                 user.setName(resultSet.getString("name"));
                 user.setSurname(resultSet.getString("surname"));
+                user.setEmail(resultSet.getString("email"));
                 user.setRole(resultSet.getString("role"));
                 users.add(user);
             }

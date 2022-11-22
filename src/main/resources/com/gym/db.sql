@@ -6,6 +6,7 @@ CREATE TABLE IF NOT EXISTS user
     email varchar(45) NOT NULL,
     password varchar(45) NOT NULL,
     role varchar(10) DEFAULT 'CLIENT' NOT NULL,
+    price double,
     CONSTRAINT email_UNIQUE
         UNIQUE (email),
     CONSTRAINT id_UNIQUE
@@ -61,6 +62,7 @@ CREATE TABLE IF NOT EXISTS operation
     id int AUTO_INCREMENT PRIMARY KEY NOT NULL,
     categoryId int NOT NULL,
     price double NOT NULL,
+    description varchar(1024),
     CONSTRAINT id_UNIQUE
         UNIQUE (id),
     CONSTRAINT categoryId
