@@ -9,6 +9,7 @@ public class User implements Serializable {
     private String email;
     private String password;
     private Role role;
+    private double price;
 
     enum Role {
         CLIENT,
@@ -62,5 +63,13 @@ public class User implements Serializable {
 
     public void setRole(String role) {
         this.role = Role.valueOf(role);
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
     }
 }

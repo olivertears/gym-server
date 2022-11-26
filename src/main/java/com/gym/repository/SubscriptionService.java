@@ -9,5 +9,7 @@ public interface SubscriptionService {
     Connection connection = DBConnection.getConnection();
 
     boolean createSubscription(Subscription subscription);
+    boolean updateSubscriptionToPremium(int id);
+    boolean deleteSubscription(int id);
     Subscription getUserSubscription(int userId);
 }

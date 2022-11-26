@@ -47,6 +47,9 @@ public class Controller implements Runnable {
                 case GET_USERS -> {
                     connection.writeObject(userService.getUsers());
                 }
+                case GET_COACHES -> {
+                    connection.writeObject(userService.getCoaches());
+                }
                 case UPDATE_USER -> {
                     User user = (User) connection.readObject();
                     connection.writeObject(userService.updateUser(user));
@@ -59,6 +62,14 @@ public class Controller implements Runnable {
                 case CREATE_SUBSCRIPTION -> {
                     Subscription subscription = (Subscription) connection.readObject();
                     connection.writeObject(subscriptionService.createSubscription(subscription));
+                }
+                case UPDATE_SUBSCRIPTION_TO_PREMIUM -> {
+                    int id = (int) connection.readObject();
+                    connection.writeObject(subscriptionService.updateSubscriptionToPremium(id));
+                }
+                case DELETE_SUBSCRIPTION -> {
+                    int id = (int) connection.readObject();
+                    connection.writeObject(subscriptionService.deleteSubscription(id));
                 }
                 case GET_USER_SUBSCRIPTION -> {
                     int userId = (int) connection.readObject();

@@ -140,6 +140,31 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<User> getCoaches() {
+        List<User> coaches = new ArrayList<>();
+        String sql = "SELECT * FROM user WHERE role = 'COACH' ORDER BY id";
+
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            ResultSet resultSet = statement.executeQuery(sql);
+
+            while (resultSet.next()) {
+                User coach = new User();
+                coach.setId(resultSet.getInt("id"));
+                coach.setName(resultSet.getString("name"));
+                coach.setSurname(resultSet.getString("surname"));
+                coach.setEmail(resultSet.getString("email"));
+                coach.setPrice(resultSet.getDouble("price"));
+                coaches.add(coach);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return coaches;
+    }
+
+    @Override
     public boolean updateUser(User user) {
         String sql = "UPDATE user SET name = ?, surname = ?, role = ? WHERE id = ?";
 

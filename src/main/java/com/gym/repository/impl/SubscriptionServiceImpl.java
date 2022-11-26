@@ -36,9 +36,39 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     }
 
     @Override
+    public boolean updateSubscriptionToPremium(int id) {
+        String sql = "UPDATE subscription SET type = 'PREMIUM' WHERE id = ?";
+
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, id);
+            statement.executeUpdate();
+
+            return true;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public boolean deleteSubscription(int id) {
+        String sql = "DELETE FROM subscription WHERE id = ?";
+
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, id);
+            statement.executeUpdate();
+
+            return true;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
     public Subscription getUserSubscription(int userId) {
         Subscription subscription = new Subscription();
-        String sql = "SELECT * FROM subscription WHERE userId = ? AND end <= CURDATE()";
+        String sql = "SELECT * FROM subscription WHERE userId = ? AND end >= CURDATE()";
 
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
@@ -47,6 +77,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 
             if (resultSet.isBeforeFirst()) {
                 while (resultSet.next()) {
+                    subscription.setId(resultSet.getInt("id"));
                     subscription.setUserId(resultSet.getInt("userId"));
                     subscription.setType(resultSet.getString("type"));
                     subscription.setPrice(resultSet.getDouble("price"));
