@@ -1,10 +1,7 @@
 package com.gym.repository.impl;
 
 import com.gym.dto.WorkoutTimeDto;
-import com.gym.entity.Subscription;
-import com.gym.entity.User;
 import com.gym.entity.Workout;
-import com.gym.repository.UserService;
 import com.gym.repository.WorkoutService;
 
 import java.sql.*;
@@ -13,8 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class WorkoutServiceImpl implements WorkoutService {
-    UserService userService = new UserServiceImpl();
-
     @Override
     public boolean createWorkout(Workout workout) {
         String sql = "INSERT INTO workout (clientId, coachId, price, date, time) VALUES (?, ?, ?, ?, ?)";
@@ -144,8 +139,7 @@ public class WorkoutServiceImpl implements WorkoutService {
                 workout.setDate((resultSet.getDate("date")).toLocalDate());
                 workout.setTime((resultSet.getString("time")));
 
-                User coach = userService.getUserById(workout.getCoachId());
-                workout.setCoach(coach.getName() + " " + coach.getSurname());
+                workout.setCoach(UserServiceImpl.getUserFullName(workout.getCoachId()));
 
                 workouts.add(workout);
             }
@@ -176,8 +170,7 @@ public class WorkoutServiceImpl implements WorkoutService {
                 workout.setDate((resultSet.getDate("date")).toLocalDate());
                 workout.setTime((resultSet.getString("time")));
 
-                User client = userService.getUserById(workout.getClientId());
-                workout.setClient(client.getName() + " " + client.getSurname());
+                workout.setClient(UserServiceImpl.getUserFullName(workout.getClientId()));
 
                 workouts.add(workout);
             }

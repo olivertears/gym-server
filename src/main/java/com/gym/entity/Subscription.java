@@ -13,7 +13,8 @@ public class Subscription implements Serializable {
 
     enum Type {
         STANDARD,
-        PREMIUM
+        PREMIUM,
+        CONTRACT
     }
 
     public int getId() {

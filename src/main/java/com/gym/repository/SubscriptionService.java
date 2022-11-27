@@ -11,5 +11,6 @@ public interface SubscriptionService {
     boolean createSubscription(Subscription subscription);
     boolean updateSubscriptionToPremium(int id);
     boolean deleteSubscription(int id);
+    boolean deleteContract(int coachId);
     Subscription getUserSubscription(int userId);
 }

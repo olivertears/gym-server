@@ -1,7 +1,6 @@
 package com.gym.repository.impl;
 
 import com.gym.entity.Subscription;
-import com.gym.entity.Workout;
 import com.gym.repository.SubscriptionService;
 import com.gym.repository.WorkoutService;
 
@@ -90,6 +89,13 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public boolean deleteContract(int coachId) {
+        workoutService.deleteCoachWorkouts(coachId);
+
+        return true;
     }
 
     @Override

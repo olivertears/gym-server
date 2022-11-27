@@ -4,6 +4,7 @@ import com.gym.Connection;
 import com.gym.command.Action;
 import com.gym.dto.SignupDto;
 import com.gym.dto.LoginDto;
+import com.gym.dto.UserRoleDto;
 import com.gym.dto.WorkoutTimeDto;
 import com.gym.entity.*;
 import com.gym.repository.*;
@@ -54,6 +55,10 @@ public class Controller implements Runnable {
                 case UPDATE_USER -> {
                     User user = (User) connection.readObject();
                     connection.writeObject(userService.updateUser(user));
+                }
+                case UPDATE_USER_ROLE -> {
+                    UserRoleDto userRoleDto = (UserRoleDto) connection.readObject();
+                    connection.writeObject(userService.updateUserRole(userRoleDto));
                 }
                 case DELETE_USER -> {
                     int id = (int) connection.readObject();

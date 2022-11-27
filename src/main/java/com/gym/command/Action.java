@@ -7,6 +7,7 @@ public enum Action {
         GET_USERS,
         GET_COACHES,
         UPDATE_USER,
+        UPDATE_USER_ROLE,
         DELETE_USER,
 
         CREATE_SUBSCRIPTION,
