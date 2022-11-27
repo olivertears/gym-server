@@ -4,6 +4,7 @@ import com.gym.Connection;
 import com.gym.command.Action;
 import com.gym.dto.SignupDto;
 import com.gym.dto.LoginDto;
+import com.gym.dto.WorkoutTimeDto;
 import com.gym.entity.*;
 import com.gym.repository.*;
 import com.gym.repository.impl.*;
@@ -84,6 +85,10 @@ public class Controller implements Runnable {
                     Workout workout = (Workout) connection.readObject();
                     connection.writeObject(workoutService.updateWorkout(workout));
                 }
+                case SET_WORKOUT_DONE -> {
+                    int id = (int) connection.readObject();
+                    connection.writeObject(workoutService.setWorkoutDone(id));
+                }
                 case DELETE_WORKOUT -> {
                     int id = (int) connection.readObject();
                     connection.writeObject(workoutService.deleteWorkout(id));
@@ -95,6 +100,10 @@ public class Controller implements Runnable {
                 case GET_COACH_WORKOUTS -> {
                     int coachId = (int) connection.readObject();
                     connection.writeObject(workoutService.getCoachWorkouts(coachId));
+                }
+                case GET_COACH_DATE_WORKOUT_TIMES -> {
+                    WorkoutTimeDto workoutTimeDto = (WorkoutTimeDto) connection.readObject();
+                    connection.writeObject(workoutService.getCoachDateWorkoutTimes(workoutTimeDto));
                 }
 
                 case CREATE_CATEGORY -> {

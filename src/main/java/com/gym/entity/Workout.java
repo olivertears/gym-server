@@ -1,7 +1,7 @@
 package com.gym.entity;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
+import java.time.LocalDate;
 
 public class Workout implements Serializable {
     private int id;
@@ -9,7 +9,10 @@ public class Workout implements Serializable {
     private int coachId;
     private boolean done;
     private double price;
-    private Timestamp start;
+    private LocalDate date;
+    private String time;
+    private String coach;
+    private String client;
 
     public int getId() {
         return id;
@@ -43,19 +46,43 @@ public class Workout implements Serializable {
         this.price = price;
     }
 
-    public Timestamp getStart() {
-        return start;
-    }
-
-    public void setStart(Timestamp start) {
-        this.start = start;
-    }
-
     public int getClientId() {
         return clientId;
     }
 
     public void setClientId(int clientId) {
         this.clientId = clientId;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public String getCoach() {
+        return coach;
+    }
+
+    public void setCoach(String coach) {
+        this.coach = coach;
+    }
+
+    public String getClient() {
+        return client;
+    }
+
+    public void setClient(String client) {
+        this.client = client;
     }
 }

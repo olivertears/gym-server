@@ -16,9 +16,11 @@ public enum Action {
 
         CREATE_WORKOUT,
         UPDATE_WORKOUT,
+        SET_WORKOUT_DONE,
         DELETE_WORKOUT,
         GET_CLIENT_WORKOUTS,
         GET_COACH_WORKOUTS,
+        GET_COACH_DATE_WORKOUT_TIMES,
 
         CREATE_CATEGORY,
         UPDATE_CATEGORY,

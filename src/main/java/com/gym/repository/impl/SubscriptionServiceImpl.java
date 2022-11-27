@@ -1,7 +1,9 @@
 package com.gym.repository.impl;
 
 import com.gym.entity.Subscription;
+import com.gym.entity.Workout;
 import com.gym.repository.SubscriptionService;
+import com.gym.repository.WorkoutService;
 
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -10,6 +12,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 
 public class SubscriptionServiceImpl implements SubscriptionService {
+    WorkoutService workoutService = new WorkoutServiceImpl();
     @Override
     public boolean createSubscription(Subscription subscription) {
         String sql = "INSERT INTO subscription (userId, type, price, start, end) VALUES (?, ?, ?, ?, ?)";
@@ -50,8 +53,32 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         }
     }
 
+    public Subscription getSubscriptionById(int id) {
+        Subscription subscription = new Subscription();
+        String sql = "SELECT * FROM subscription WHERE id = ?";
+
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, id);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.isBeforeFirst()) {
+                while (resultSet.next()) {
+                    subscription.setUserId(resultSet.getInt("userId"));
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return subscription;
+    }
+
     @Override
     public boolean deleteSubscription(int id) {
+        int clientId = getSubscriptionById(id).getUserId();
+        workoutService.deleteClientWorkouts(clientId);
+
         String sql = "DELETE FROM subscription WHERE id = ?";
 
         try {

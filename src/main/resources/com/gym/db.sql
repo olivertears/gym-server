@@ -35,7 +35,8 @@ CREATE TABLE IF NOT EXISTS workout
     coachId int NOT NULL,
     done tinyint DEFAULT '0' NOT NULL,
     price double NOT NULL,
-    start datetime NOT NULL,
+    date date NOT NULL,
+    time varchar(10) NOT NULL,
     CONSTRAINT id_UNIQUE
         UNIQUE (id),
     CONSTRAINT clientId
