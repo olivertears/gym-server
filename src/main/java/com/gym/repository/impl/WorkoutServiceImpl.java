@@ -61,6 +61,21 @@ public class WorkoutServiceImpl implements WorkoutService {
     }
 
     @Override
+    public boolean updateClientWorkoutsToPremiumPrice(int clientId) {
+        String sql = "UPDATE workout SET price = price * 0.8 WHERE clientId = ?";
+
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, clientId);
+            statement.executeUpdate();
+
+            return true;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
     public boolean setWorkoutDone(int id) {
         String sql = "UPDATE workout SET done = 1 WHERE id = ?";
 

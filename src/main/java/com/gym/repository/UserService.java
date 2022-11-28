@@ -3,6 +3,7 @@ package com.gym.repository;
 import com.gym.DBConnection;
 import com.gym.dto.LoginDto;
 import com.gym.dto.SignupDto;
+import com.gym.dto.UserDataDto;
 import com.gym.dto.UserRoleDto;
 import com.gym.entity.User;
 
@@ -20,7 +21,7 @@ public interface UserService {
     User getUserById(int id);
     List<User> getUsers();
     List<User> getCoaches();
-    boolean updateUser(User user);
+    boolean updateUser(UserDataDto user);
     boolean updateUserRole(UserRoleDto userRoleDto);
     boolean deleteUser(int id);
 

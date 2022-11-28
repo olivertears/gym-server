@@ -2,10 +2,7 @@ package com.gym.controller;
 
 import com.gym.Connection;
 import com.gym.command.Action;
-import com.gym.dto.SignupDto;
-import com.gym.dto.LoginDto;
-import com.gym.dto.UserRoleDto;
-import com.gym.dto.WorkoutTimeDto;
+import com.gym.dto.*;
 import com.gym.entity.*;
 import com.gym.repository.*;
 import com.gym.repository.impl.*;
@@ -53,8 +50,8 @@ public class Controller implements Runnable {
                     connection.writeObject(userService.getCoaches());
                 }
                 case UPDATE_USER -> {
-                    User user = (User) connection.readObject();
-                    connection.writeObject(userService.updateUser(user));
+                    UserDataDto userDataDto = (UserDataDto) connection.readObject();
+                    connection.writeObject(userService.updateUser(userDataDto));
                 }
                 case UPDATE_USER_ROLE -> {
                     UserRoleDto userRoleDto = (UserRoleDto) connection.readObject();

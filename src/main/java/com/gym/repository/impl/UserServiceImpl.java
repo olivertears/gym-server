@@ -2,6 +2,7 @@ package com.gym.repository.impl;
 
 import com.gym.dto.SignupDto;
 import com.gym.dto.LoginDto;
+import com.gym.dto.UserDataDto;
 import com.gym.dto.UserRoleDto;
 import com.gym.entity.Subscription;
 import com.gym.entity.User;
@@ -15,6 +16,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class UserServiceImpl implements UserService {
@@ -67,6 +69,7 @@ public class UserServiceImpl implements UserService {
                     user.setSurname(resultSet.getString("surname"));
                     user.setEmail(resultSet.getString("email"));
                     user.setRole(resultSet.getString("role"));
+                    user.setPrice(resultSet.getDouble("price"));
                 }
             } else {
                 return null;
@@ -110,6 +113,7 @@ public class UserServiceImpl implements UserService {
                     user.setSurname(resultSet.getString("surname"));
                     user.setEmail(resultSet.getString("email"));
                     user.setRole(resultSet.getString("role"));
+                    user.setPrice(resultSet.getDouble("price"));
                 }
             } else {
                 return null;
@@ -172,19 +176,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean updateUser(User user) {
-        String sql = "UPDATE user SET name = ?, surname = ?, role = ? WHERE id = ?";
+    public boolean updateUser(UserDataDto userDataDto) {
+        String sql = "UPDATE user SET name = ?, surname = ?, price = ? WHERE id = ?";
 
-        int id = user.getId();
-        String name = user.getName();
-        String surname = user.getSurname();
-        String role = user.getRole();
+        int id = userDataDto.getId();
+        String name = userDataDto.getName();
+        String surname = userDataDto.getSurname();
+        double price = userDataDto.getPrice();
 
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, name);
             statement.setString(2, surname);
-            statement.setString(3, role);
+            statement.setDouble(3, price);
             statement.setInt(4, id);
             statement.executeUpdate();
 

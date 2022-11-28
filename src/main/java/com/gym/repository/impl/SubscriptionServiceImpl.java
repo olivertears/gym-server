@@ -41,6 +41,9 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     public boolean updateSubscriptionToPremium(int id) {
         String sql = "UPDATE subscription SET type = 'PREMIUM' WHERE id = ?";
 
+        Subscription subscription = getSubscriptionById(id);
+        workoutService.updateClientWorkoutsToPremiumPrice(subscription.getUserId());
+
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1, id);
