@@ -6,6 +6,8 @@ public class Category implements Serializable {
     private int id;
     private Type type;
     private String name;
+    private boolean isDefaultWorkoutCategory;
+    private boolean isDefaultSubscriptionCategory;
 
     enum Type {
         EXPENSE,
@@ -34,5 +36,21 @@ public class Category implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public boolean isDefaultSubscriptionCategory() {
+        return isDefaultSubscriptionCategory;
+    }
+
+    public void setDefaultSubscriptionCategory(boolean defaultSubscriptionCategory) {
+        isDefaultSubscriptionCategory = defaultSubscriptionCategory;
+    }
+
+    public boolean isDefaultWorkoutCategory() {
+        return isDefaultWorkoutCategory;
+    }
+
+    public void setDefaultWorkoutCategory(boolean defaultWorkoutCategory) {
+        isDefaultWorkoutCategory = defaultWorkoutCategory;
     }
 }

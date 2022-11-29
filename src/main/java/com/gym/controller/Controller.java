@@ -124,6 +124,10 @@ public class Controller implements Runnable {
                         connection.writeObject(categoryService.updateCategory(category));
                     }
                 }
+                case SET_DEFAULT_CATEGORY -> {
+                    DefaultCategoryDto defaultCategoryDto = (DefaultCategoryDto) connection.readObject();
+                    connection.writeObject(categoryService.setDefaultCategory(defaultCategoryDto));
+                }
                 case DELETE_CATEGORY -> {
                     int id = (int) connection.readObject();
                     connection.writeObject(categoryService.deleteCategory(id));

@@ -52,6 +52,8 @@ CREATE TABLE IF NOT EXISTS category
     id int AUTO_INCREMENT PRIMARY KEY NOT NULL,
     type varchar(10) DEFAULT 'EXPENSE' NOT NULL,
     name varchar(45) NOT NULL,
+    isDefaultWorkoutCategory tinyint DEFAULT '0',
+    isDefaultSubscriptionCategory tinyint DEFAULT '0',
     CONSTRAINT id_UNIQUE
         UNIQUE (id),
     CONSTRAINT name_UNIQUE
@@ -70,6 +72,10 @@ CREATE TABLE IF NOT EXISTS operation
         FOREIGN KEY (categoryId) REFERENCES category (id)
         ON DELETE CASCADE
 );
+
+
+# INSERT INTO category (type, name, isDefaultWorkoutCategory, isDefaultSubscriptionCategory)
+#     VALUES ('INCOME', 'Доход', 1, 1);
 
 # USER
 # INSERT INTO user (role, name, surname, email, password)

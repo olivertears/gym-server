@@ -25,6 +25,7 @@ public enum Action {
 
         CREATE_CATEGORY,
         UPDATE_CATEGORY,
+        SET_DEFAULT_CATEGORY,
         DELETE_CATEGORY,
         GET_CATEGORIES_BY_TYPE,
 
