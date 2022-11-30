@@ -110,16 +110,16 @@ public class Controller implements Runnable {
 
                 case CREATE_CATEGORY -> {
                     Category category = (Category) connection.readObject();
-                    if (categoryService.doesCategoryExist(category.getName())) {
-                        connection.writeObject(null);
+                    if (categoryService.doesCategoryExist(category.getName(), category.getId())) {
+                        connection.writeObject(false);
                     } else {
                         connection.writeObject(categoryService.createCategory(category));
                     }
                 }
                 case UPDATE_CATEGORY -> {
                     Category category = (Category) connection.readObject();
-                    if (categoryService.doesCategoryExist(category.getName())) {
-                        connection.writeObject(null);
+                    if (categoryService.doesCategoryExist(category.getName(), category.getId())) {
+                        connection.writeObject(false);
                     } else {
                         connection.writeObject(categoryService.updateCategory(category));
                     }

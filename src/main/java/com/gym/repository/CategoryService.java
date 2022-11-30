@@ -10,7 +10,7 @@ import java.util.List;
 public interface CategoryService {
     Connection connection = DBConnection.getConnection();
 
-    boolean doesCategoryExist(String name);
+    boolean doesCategoryExist(String name, int id);
 
     boolean createCategory(Category category);
     boolean updateCategory(Category category);

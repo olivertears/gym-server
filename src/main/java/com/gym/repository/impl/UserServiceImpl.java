@@ -141,6 +141,7 @@ public class UserServiceImpl implements UserService {
                 user.setSurname(resultSet.getString("surname"));
                 user.setEmail(resultSet.getString("email"));
                 user.setRole(resultSet.getString("role"));
+                user.setPrice(resultSet.getDouble("price"));
                 users.add(user);
             }
         } catch (SQLException e) {
@@ -204,7 +205,16 @@ public class UserServiceImpl implements UserService {
 
         int id = userRoleDto.getId();
         String role = userRoleDto.getRole();
-        double price = role.equals("COACH") ? 20.00 : 0.00;
+        Double price = userRoleDto.getPrice();
+        double finalPrice = 0.00;
+
+        if (role.equals("COACH")) {
+            if (price == 0.00) {
+                finalPrice = 20.00;
+            } else {
+                finalPrice = price;
+            }
+        }
 
         Subscription currentSubscription = subscriptionService.getUserSubscription(id);
         if (currentSubscription != null) {
@@ -226,7 +236,7 @@ public class UserServiceImpl implements UserService {
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, role);
-            statement.setDouble(2, price);
+            statement.setDouble(2, finalPrice);
             statement.setInt(3, id);
             statement.executeUpdate();
 

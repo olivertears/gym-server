@@ -14,7 +14,7 @@ import java.util.List;
 
 public class CategoryServiceImpl implements CategoryService {
     @Override
-    public boolean doesCategoryExist(String name) {
+    public boolean doesCategoryExist(String name, int id) {
         String sql = "SELECT * FROM category WHERE name = ?";
 
         try {
@@ -22,7 +22,12 @@ public class CategoryServiceImpl implements CategoryService {
             statement.setString(1, name);
             ResultSet resultSet = statement.executeQuery();
 
-            return resultSet.isBeforeFirst();
+            if (resultSet.isBeforeFirst()){
+                while (resultSet.next()) {
+                    return resultSet.getInt("id") != id;
+                }
+            }
+            return false;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
