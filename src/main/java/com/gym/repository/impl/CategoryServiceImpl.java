@@ -122,10 +122,10 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public List<Category> getCategoriesByType(String type) {
         List<Category> categories = new ArrayList<>();
-        String sql = "SELECT * FROM category WHERE type = ?";
+        String sql = "SELECT * FROM category WHERE type = ? ORDER BY name";
 
         if (type.equals("ALL")) {
-            sql = "SELECT * FROM category";
+            sql = "SELECT * FROM category ORDER BY name";
         }
 
         try {

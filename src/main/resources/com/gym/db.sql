@@ -60,22 +60,25 @@ CREATE TABLE IF NOT EXISTS category
         UNIQUE (name)
 );
 
-CREATE TABLE IF NOT EXISTS operation
+CREATE TABLE IF NOT EXISTS transaction
 (
     id int AUTO_INCREMENT PRIMARY KEY NOT NULL,
-    categoryId int NOT NULL,
+    categoryName varchar(45) NOT NULL,
     price double NOT NULL,
     description varchar(1024),
     CONSTRAINT id_UNIQUE
         UNIQUE (id),
-    CONSTRAINT categoryId
-        FOREIGN KEY (categoryId) REFERENCES category (id)
+    CONSTRAINT categoryName
+        FOREIGN KEY (categoryName) REFERENCES category (name)
         ON DELETE CASCADE
 );
 
 
 # INSERT INTO category (type, name, isDefaultWorkoutCategory, isDefaultSubscriptionCategory)
 #     VALUES ('INCOME', 'Доход', 1, 1);
+
+# INSERT INTO transaction (categoryName, price, description)
+#     VALUES ('Прибыль', 100.00, "Some description to test");
 
 # USER
 # INSERT INTO user (role, name, surname, email, password)

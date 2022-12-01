@@ -22,7 +22,7 @@ public class Controller implements Runnable {
         SubscriptionService subscriptionService = new SubscriptionServiceImpl();
         WorkoutService workoutService = new WorkoutServiceImpl();
         CategoryService categoryService = new CategoryServiceImpl();
-        OperationService operationService = new OperationServiceImpl();
+        TransactionService transactionService = new TransactionServiceImpl();
 
         while (true) {
             Action action = (Action) connection.readObject();
@@ -137,20 +137,20 @@ public class Controller implements Runnable {
                     connection.writeObject(categoryService.getCategoriesByType(type));
                 }
 
-                case CREATE_OPERATION -> {
-                    Operation operation = (Operation) connection.readObject();
-                    connection.writeObject(operationService.createOperation(operation));
+                case CREATE_TRANSACTION -> {
+                    Transaction transaction = (Transaction) connection.readObject();
+                    connection.writeObject(transactionService.createTransaction(transaction));
                 }
-                case UPDATE_OPERATION -> {
-                    Operation operation = (Operation) connection.readObject();
-                    connection.writeObject(operationService.updateOperation(operation));
+                case UPDATE_TRANSACTION -> {
+                    Transaction transaction = (Transaction) connection.readObject();
+                    connection.writeObject(transactionService.updateTransaction(transaction));
                 }
-                case DELETE_OPERATION -> {
+                case DELETE_TRANSACTION -> {
                     int id = (int) connection.readObject();
-                    connection.writeObject(operationService.deleteOperation(id));
+                    connection.writeObject(transactionService.deleteTransaction(id));
                 }
-                case GET_OPERATIONS -> {
-                    connection.writeObject(operationService.getOperations());
+                case GET_TRANSACTION -> {
+                    connection.writeObject(transactionService.getTransactions());
                 }
             }
         }
