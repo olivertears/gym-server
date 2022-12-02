@@ -66,6 +66,7 @@ CREATE TABLE IF NOT EXISTS transaction
     categoryName varchar(45) NOT NULL,
     price double NOT NULL,
     description varchar(1024),
+    date date NOT NULL,
     CONSTRAINT id_UNIQUE
         UNIQUE (id),
     CONSTRAINT categoryName

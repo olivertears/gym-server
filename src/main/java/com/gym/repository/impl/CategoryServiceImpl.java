@@ -2,13 +2,16 @@ package com.gym.repository.impl;
 
 import com.gym.dto.DefaultCategoryDto;
 import com.gym.entity.Category;
+import com.gym.entity.Transaction;
 import com.gym.entity.User;
 import com.gym.repository.CategoryService;
+import com.gym.repository.TransactionService;
 import com.gym.utils.PasswordEncoder;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -149,5 +152,39 @@ public class CategoryServiceImpl implements CategoryService {
         }
 
         return categories;
+    }
+
+    @Override
+    public String getWorkoutDefaultCategoryName() {
+        String sql = "SELECT * FROM category WHERE isDefaultWorkoutCategory = 1";
+
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                return resultSet.getString("name");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
+    }
+
+    @Override
+    public String getSubscriptionDefaultCategoryName() {
+        String sql = "SELECT * FROM category WHERE isDefaultSubscriptionCategory = 1";
+
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                return resultSet.getString("name");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
     }
 }

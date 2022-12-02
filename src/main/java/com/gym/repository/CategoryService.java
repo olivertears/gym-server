@@ -17,4 +17,6 @@ public interface CategoryService {
     boolean setDefaultCategory(DefaultCategoryDto defaultCategoryDto);
     boolean deleteCategory(int id);
     List<Category> getCategoriesByType(String type);
+    String getWorkoutDefaultCategoryName();
+    String getSubscriptionDefaultCategoryName();
 }

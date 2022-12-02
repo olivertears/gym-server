@@ -1,12 +1,14 @@
 package com.gym.entity;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 
 public class Transaction implements Serializable {
     private int id;
     private String categoryName;
     private double price;
     private String description;
+    private LocalDate date;
 
     public int getId() {
         return id;
@@ -38,5 +40,13 @@ public class Transaction implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
     }
 }

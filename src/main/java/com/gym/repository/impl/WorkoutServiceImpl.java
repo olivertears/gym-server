@@ -1,7 +1,10 @@
 package com.gym.repository.impl;
 
 import com.gym.dto.WorkoutTimeDto;
+import com.gym.entity.Transaction;
 import com.gym.entity.Workout;
+import com.gym.repository.CategoryService;
+import com.gym.repository.TransactionService;
 import com.gym.repository.WorkoutService;
 
 import java.sql.*;
@@ -10,6 +13,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class WorkoutServiceImpl implements WorkoutService {
+    TransactionService transactionService = new TransactionServiceImpl();
+    CategoryService categoryService = new CategoryServiceImpl();
+
     @Override
     public boolean createWorkout(Workout workout) {
         String sql = "INSERT INTO workout (clientId, coachId, price, date, time) VALUES (?, ?, ?, ?, ?)";
@@ -76,12 +82,19 @@ public class WorkoutServiceImpl implements WorkoutService {
     }
 
     @Override
-    public boolean setWorkoutDone(int id) {
+    public boolean setWorkoutDone(Workout workout) {
         String sql = "UPDATE workout SET done = 1 WHERE id = ?";
+
+        Transaction transaction = new Transaction();
+        transaction.setDate(LocalDate.now());
+        transaction.setPrice(workout.getPrice());
+        transaction.setCategoryName(categoryService.getWorkoutDefaultCategoryName());
+        transaction.setDescription("Дата: " + workout.getDate() + ".\nВремя: " +workout.getTime() + ".\nТренировка от " + UserServiceImpl.getUserFullName(workout.getCoachId()) + " для " + UserServiceImpl.getUserFullName(workout.getClientId()) + ".");
+        transactionService.createTransaction(transaction);
 
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setInt(1, id);
+            statement.setInt(1, workout.getId());
             statement.executeUpdate();
 
             return true;

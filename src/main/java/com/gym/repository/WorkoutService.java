@@ -15,7 +15,7 @@ public interface WorkoutService {
     boolean createWorkout(Workout workout);
     boolean updateWorkout(Workout workout);
     boolean updateClientWorkoutsToPremiumPrice(int clientId);
-    boolean setWorkoutDone(int id);
+    boolean setWorkoutDone(Workout workout);
     boolean deleteWorkout(int id);
     boolean deleteClientWorkouts(int clientId);
     boolean deleteCoachWorkouts(int coachId);

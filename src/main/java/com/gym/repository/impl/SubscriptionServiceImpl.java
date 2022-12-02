@@ -1,20 +1,33 @@
 package com.gym.repository.impl;
 
 import com.gym.entity.Subscription;
+import com.gym.entity.Transaction;
+import com.gym.repository.CategoryService;
 import com.gym.repository.SubscriptionService;
+import com.gym.repository.TransactionService;
 import com.gym.repository.WorkoutService;
 
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 public class SubscriptionServiceImpl implements SubscriptionService {
     WorkoutService workoutService = new WorkoutServiceImpl();
+    TransactionService transactionService = new TransactionServiceImpl();
+    CategoryService categoryService = new CategoryServiceImpl();
+
+
     @Override
     public boolean createSubscription(Subscription subscription) {
         String sql = "INSERT INTO subscription (userId, type, price, start, end) VALUES (?, ?, ?, ?, ?)";
+
+        Transaction transaction = new Transaction();
+        transaction.setDate(LocalDate.now());
+        transaction.setPrice(subscription.getPrice());
+        transaction.setCategoryName(categoryService.getSubscriptionDefaultCategoryName());
+        transaction.setDescription("Дата: " + LocalDate.now() + ".\nВремя: " + String.valueOf(LocalTime.now()).substring(0, 5) + ".\nПокупка абонемента уровня " + subscription.getType() + " от " + UserServiceImpl.getUserFullName(subscription.getUserId()) + ".");
+        transactionService.createTransaction(transaction);
 
         int userId = subscription.getUserId();
         String type = subscription.getType();
@@ -43,6 +56,13 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 
         Subscription subscription = getSubscriptionById(id);
         workoutService.updateClientWorkoutsToPremiumPrice(subscription.getUserId());
+
+//        Transaction transaction = new Transaction();
+//        transaction.setDate(LocalDate.now());
+//        transaction.setPrice(subscription.getPrice());
+//        transaction.setCategoryName(categoryService.getSubscriptionDefaultCategoryName());
+//        transaction.setDescription(UserServiceImpl.getUserFullName(subscription.getUserId()) + " приобрел(а) абонемент");
+//        transactionService.createTransaction(transaction);
 
         try {
             PreparedStatement statement = connection.prepareStatement(sql);

@@ -88,8 +88,8 @@ public class Controller implements Runnable {
                     connection.writeObject(workoutService.updateWorkout(workout));
                 }
                 case SET_WORKOUT_DONE -> {
-                    int id = (int) connection.readObject();
-                    connection.writeObject(workoutService.setWorkoutDone(id));
+                    Workout workout = (Workout) connection.readObject();
+                    connection.writeObject(workoutService.setWorkoutDone(workout));
                 }
                 case DELETE_WORKOUT -> {
                     int id = (int) connection.readObject();
@@ -150,7 +150,8 @@ public class Controller implements Runnable {
                     connection.writeObject(transactionService.deleteTransaction(id));
                 }
                 case GET_TRANSACTION -> {
-                    connection.writeObject(transactionService.getTransactions());
+                    TransactionFilterDto transactionFilterDto = (TransactionFilterDto) connection.readObject();
+                    connection.writeObject(transactionService.getTransactions(transactionFilterDto));
                 }
             }
         }
