@@ -52,17 +52,17 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 
     @Override
     public boolean updateSubscriptionToPremium(int id) {
-        String sql = "UPDATE subscription SET type = 'PREMIUM' WHERE id = ?";
+        String sql = "UPDATE subscription SET type = 'PREMIUM', price = price * 2 WHERE id = ?";
 
         Subscription subscription = getSubscriptionById(id);
         workoutService.updateClientWorkoutsToPremiumPrice(subscription.getUserId());
 
-//        Transaction transaction = new Transaction();
-//        transaction.setDate(LocalDate.now());
-//        transaction.setPrice(subscription.getPrice());
-//        transaction.setCategoryName(categoryService.getSubscriptionDefaultCategoryName());
-//        transaction.setDescription(UserServiceImpl.getUserFullName(subscription.getUserId()) + " приобрел(а) абонемент");
-//        transactionService.createTransaction(transaction);
+        Transaction transaction = new Transaction();
+        transaction.setDate(LocalDate.now());
+        transaction.setPrice(subscription.getPrice());
+        transaction.setCategoryName(categoryService.getSubscriptionDefaultCategoryName());
+        transaction.setDescription("Дата: " + LocalDate.now() + ".\nВремя: " + String.valueOf(LocalTime.now()).substring(0, 5) + ".\nОбновление уровня абонемента до PREMIUM от " + UserServiceImpl.getUserFullName(subscription.getUserId()) + ".");
+        transactionService.createTransaction(transaction);
 
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
@@ -86,7 +86,12 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 
             if (resultSet.isBeforeFirst()) {
                 while (resultSet.next()) {
+                    subscription.setId(resultSet.getInt("id"));
                     subscription.setUserId(resultSet.getInt("userId"));
+                    subscription.setType(resultSet.getString("type"));
+                    subscription.setPrice(resultSet.getDouble("price"));
+                    subscription.setStart(resultSet.getDate("start").toLocalDate());
+                    subscription.setEnd(resultSet.getDate("end").toLocalDate());
                 }
             }
         } catch (SQLException e) {
@@ -98,10 +103,18 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 
     @Override
     public boolean deleteSubscription(int id) {
-        int clientId = getSubscriptionById(id).getUserId();
+        Subscription subscription = getSubscriptionById(id);
+        int clientId = subscription.getUserId();
         workoutService.deleteClientWorkouts(clientId);
 
         String sql = "DELETE FROM subscription WHERE id = ?";
+
+        Transaction transaction = new Transaction();
+        transaction.setDate(LocalDate.now());
+        transaction.setPrice(-subscription.getPrice());
+        transaction.setCategoryName(categoryService.getSubscriptionDefaultCategoryName());
+        transaction.setDescription("Дата: " + LocalDate.now() + ".\nВремя: " + String.valueOf(LocalTime.now()).substring(0, 5) + ".\nОмена абонемента уровня " + subscription.getType() + " от " + UserServiceImpl.getUserFullName(subscription.getUserId()) + ".");
+        transactionService.createTransaction(transaction);
 
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
