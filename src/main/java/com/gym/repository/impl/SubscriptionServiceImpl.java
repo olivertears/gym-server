@@ -17,7 +17,6 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     TransactionService transactionService = new TransactionServiceImpl();
     CategoryService categoryService = new CategoryServiceImpl();
 
-
     @Override
     public boolean createSubscription(Subscription subscription) {
         String sql = "INSERT INTO subscription (userId, type, price, start, end) VALUES (?, ?, ?, ?, ?)";

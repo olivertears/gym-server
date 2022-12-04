@@ -23,6 +23,7 @@ public class Controller implements Runnable {
         WorkoutService workoutService = new WorkoutServiceImpl();
         CategoryService categoryService = new CategoryServiceImpl();
         TransactionService transactionService = new TransactionServiceImpl();
+        ReportService reportService = new ReportServiceImpl();
 
         while (true) {
             Action action = (Action) connection.readObject();
@@ -152,6 +153,15 @@ public class Controller implements Runnable {
                 case GET_TRANSACTION -> {
                     TransactionFilterDto transactionFilterDto = (TransactionFilterDto) connection.readObject();
                     connection.writeObject(transactionService.getTransactions(transactionFilterDto));
+                }
+                case GET_WEEK_CHART_REPORT -> {
+                    connection.writeObject(reportService.getWeekChartReport());
+                }
+                case GET_MONTH_CHART_REPORT -> {
+                    connection.writeObject(reportService.getMonthChartReport());
+                }
+                case GET_YEAR_CHART_REPORT -> {
+                    connection.writeObject(reportService.getYearChartReport());
                 }
             }
         }

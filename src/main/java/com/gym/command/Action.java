@@ -33,4 +33,8 @@ public enum Action {
         UPDATE_TRANSACTION,
         DELETE_TRANSACTION,
         GET_TRANSACTION,
+
+        GET_WEEK_CHART_REPORT,
+        GET_MONTH_CHART_REPORT,
+        GET_YEAR_CHART_REPORT,
 }
